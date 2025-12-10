@@ -1,0 +1,67 @@
+<div class="container my-5">
+
+  <%# Display success/notice message from the controller %>
+  <% if notice %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <%= notice %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% end %>
+
+  <div class="row align-items-center">
+
+    <%# Left Column: Marketing Message (Call to Action) %>
+    <div class="col-md-6">
+      <h1 class="display-3 fw-bold text-primary">Invest in Portugal's Future</h1>
+      <p class="lead mt-3 mb-4">
+        Unlock exclusive real estate, technology, and tourism investment opportunities in one of Europe's most dynamic markets.
+      </p>
+      <ul class="list-unstyled">
+        <li><i class="bi bi-check-circle-fill text-success me-2"></i> Golden Visa & Residency Programs</li>
+        <li><i class="bi bi-check-circle-fill text-success me-2"></i> Favorable Tax Incentives</li>
+        <li><i class="bi bi-check-circle-fill text-success me-2"></i> High-Growth Market Sectors</li>
+      </ul>
+    </div>
+
+    <%# Right Column: Embedded Lead Capture Form %>
+    <div class="col-md-6">
+      <div class="card shadow-lg p-4">
+        <h4 class="card-title text-center mb-3">Get Your Free Investment Guide</h4>
+
+        <%# Embedded Form using the @lead variable initialized in the controller %>
+        <%= form_with(model: @lead, url: leads_path) do |form| %>
+
+          <%# Display validation errors %>
+          <% if @lead && @lead.errors.any? %>
+            <div class="alert alert-danger p-2">
+              <p class="mb-1 fw-bold">Please correct <%= pluralize(@lead.errors.count, "error") %>:</p>
+              <ul>
+                <% @lead.errors.full_messages.each do |msg| %>
+                  <li><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <div class="mb-3">
+            <%= form.text_field :name, class: "form-control form-control-lg", placeholder: "Your Full Name" %>
+          </div>
+
+          <div class="mb-3">
+            <%= form.email_field :email, class: "form-control form-control-lg", placeholder: "Email Address" %>
+          </div>
+
+          <div class="mb-3">
+            <%= form.text_field :country, class: "form-control form-control-lg", placeholder: "Country of Interest" %>
+          </div>
+
+          <div class="mb-4">
+            <%= form.text_area :message, rows: 3, class: "form-control", placeholder: "Investment Focus (Optional)" %>
+          </div>
+
+          <%= form.submit "Request Information", class: "btn btn-warning btn-lg w-100" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

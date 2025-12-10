@@ -1,0 +1,50 @@
+<div class="container my-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="text-primary">Collected Investment Leads</h1>
+    <div>
+      <%= link_to "Export to CSV", export_admin_leads_path, class: "btn btn-success me-2" %>
+      <%# Display total count (Kaminari provides total_count) %>
+      <span class="badge bg-secondary fs-6"><%= @leads.total_count %> Total Leads</span>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-hover table-striped">
+      <thead>
+        <tr class="table-primary">
+          <th>ID</th>
+          <th>Date</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Country</th>
+          <th>Message Preview</th>
+          <th>Actions</th> <%# NEW COLUMN %>
+        </tr>
+      </thead>
+      <tbody>
+        <% @leads.each do |lead| %>
+          <tr>
+            <td><%= lead.id %></td>
+            <td><%= lead.created_at.strftime("%Y-%m-%d %H:%M") %></td>
+            <td><%= link_to lead.name, admin_lead_path(lead) %></td>
+            <td><%= mail_to lead.email %></td>
+            <td><%= lead.country %></td>
+            <td><%= truncate(lead.message, length: 50) %></td>
+            <td>
+              <%# DELETE BUTTON %>
+              <%= button_to "Delete", admin_lead_path(lead), 
+                            method: :delete, 
+                            data: { confirm: "Are you sure you want to delete this lead?" },
+                            class: "btn btn-sm btn-danger" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <%# PAGINATION LINKS %>
+  <div class="d-flex justify-content-center mt-4">
+    <%= paginate @leads %>
+  </div>
+</div>

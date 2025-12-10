@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin - InvestInPortugal</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <span class="navbar-brand">
+        <i class="bi bi-shield-lock-fill me-2"></i>Admin Panel
+      </span>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <%= link_to 'Leads Dashboard', admin_root_path, class: 'nav-link' %>
+          </li>
+        </ul>
+        <span class="navbar-text">
+          <%# Display the sign-out link when an admin is logged in %>
+          <% if admin_user_signed_in? %>
+            Logged in as: <%= current_admin_user.email %> |
+            <%= link_to 'Sign Out', destroy_admin_user_session_path, 
+                        data: { turbo_method: :delete }, 
+                        class: 'btn btn-outline-light btn-sm ms-2' %>
+          <% end %>
+        </span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid pt-3">
+    <%# Flash Messages %>
+    <% if notice %>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <%= notice %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% end %>
+    <% if alert %>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <%= alert %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% end %>
+
+    <%= yield %>
+  </div>
+</body>
+</html>

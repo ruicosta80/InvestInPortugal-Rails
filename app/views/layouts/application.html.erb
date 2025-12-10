@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>InvestInPortugal</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", type: "module", "data-turbo-track": "reload" %>
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <%= link_to '🇵🇹 Invest in Portugal', root_path, class: 'navbar-brand' %>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <%= link_to 'Home', root_path, class: 'nav-link' %>
+            </li>
+            <li class="nav-item">
+              <%= link_to 'Property Guide', '#', class: 'nav-link' %>
+            </li>
+            <li class="nav-item">
+              <%= link_to 'Tax Info', '#', class: 'nav-link' %>
+            </li>
+            <li class="nav-item">
+              <%= link_to 'Request Info', '#', class: 'btn btn-sm btn-light ms-lg-3', id: 'request-info-link' %>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <main class="container my-5">
+      <%= yield %> 
+    </main>
+
+    <footer class="bg-light text-center text-lg-start mt-auto">
+      <div class="container p-4">
+        <div class="row">
+          <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+            <h5 class="text-uppercase">Invest in Portugal</h5>
+            <p>Your guide to moving, investing, and buying property in Portugal.</p>
+          </div>
+          <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+            <h5 class="text-uppercase">Links</h5>
+            <ul class="list-unstyled mb-0">
+              <li><%= link_to 'Privacy Policy', '#', class: 'text-dark' %></li>
+              <li><%= link_to 'Contact Us', '#', class: 'text-dark' %></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="text-center p-3 bg-dark text-white">
+        © <%= Time.now.year %> Copyright: InvestInPortugal
+      </div>
+    </footer>
+    </body>
+</html>
