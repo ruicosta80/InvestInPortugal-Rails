@@ -314,7 +314,6 @@ Devise.setup do |config|
   # The default is true in production to ensure cookies are only sent over SSL
 # However, some proxies/load balancers (like Render's) terminate SSL early.
 # Set this to false to allow the session cookie to work.
-config.cookie_httponly = true
 config.sign_out_via = :delete
 # ADD THIS LINE FOR RENDER:
 config.allow_unconfirmed_access_for = 2.days # or whatever time you need
