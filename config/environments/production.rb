@@ -110,6 +110,7 @@ config.action_dispatch.trusted_proxies = [
 # Use config.action_dispatch.default_url_options for devise email helpers
 config.action_mailer.default_url_options = { host: ENV['HOST_NAME'], protocol: 'https' }
 
-# The actual fix: Trust the proxy headers.
-config.action_dispatch.trusted_proxies = /.*/ # Trust all proxies for simplicity on Render
+# This tells Rails to trust the X-Forwarded-For headers from ALL proxies,
+# which is required and safe on a fully managed platform like Render.
+config.action_dispatch.trusted_proxies = [ /.*/ ]
 end
