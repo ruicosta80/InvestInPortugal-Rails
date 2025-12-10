@@ -312,16 +312,15 @@ Devise.setup do |config|
   # config.sign_in_after_change_password = true
 
   # The default is true in production to ensure cookies are only sent over SSL
-# However, some proxies/load balancers (like Render's) terminate SSL early.
-# Set this to false to allow the session cookie to work.
-config.sign_out_via = :delete
-# ADD THIS LINE FOR RENDER:
-config.allow_unconfirmed_access_for = 2.days # or whatever time you need
-config.scoped_views = false
-# Crucial line for production behind a proxy:
-config.secret_key = Rails.application.credentials.dig(:devise, :secret_key)
-# The fix:
-config.session_storage = :cookie_store
+  # However, some proxies/load balancers (like Render's) terminate SSL early.
+  # Set this to false to allow the session cookie to work.
+  config.sign_out_via = :delete
+  # ADD THIS LINE FOR RENDER:
+  config.allow_unconfirmed_access_for = 2.days # or whatever time you need
+  config.scoped_views = false
+  # Crucial line for production behind a proxy:
+  config.secret_key = Rails.application.credentials.dig(:devise, :secret_key)
+  
 
 # Add this line to handle SSL termination on proxy
 config.parent_controller = 'ApplicationController'
