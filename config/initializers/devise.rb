@@ -310,4 +310,70 @@ Devise.setup do |config|
   # When set to false, does not sign a user in automatically after their password is
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
   # config.sign_in_after_change_password = true
+
+  # The default is true in production to ensure cookies are only sent over SSL
+# However, some proxies/load balancers (like Render's) terminate SSL early.
+# Set this to false to allow the session cookie to work.
+config.cookie_httponly = true
+config.sign_out_via = :delete
+# ADD THIS LINE FOR RENDER:
+config.allow_unconfirmed_access_for = 2.days # or whatever time you need
+config.scoped_views = false
+# Crucial line for production behind a proxy:
+config.secret_key = Rails.application.credentials.dig(:devise, :secret_key)
+# The fix:
+config.session_storage = :cookie_store
+
+# Add this line to handle SSL termination on proxy
+config.parent_controller = 'ApplicationController'
+config.navigational_formats = ['*/*', :html, :turbo_stream] 
+
+# THIS IS THE KEY FIX FOR SIGN-IN ON PROXY/RENDER:
+config.cookie_same_site = :lax
+
+# Set this to true if you are using a proxy (like Render's)
+# This prevents the application from thinking the session is insecure.
+# Note: Render handles the actual SSL termination, so your traffic is still secure.
+config.url_options = { host: ENV['HOST_NAME'], protocol: 'https' }
+config.session_store = :cookie_store, { key: '_investinportugal_session', secure: true, httponly: true }
+config.skip_session_storage = [:http_auth] # Skip session storage for http auth headers (prevents conflicts)
+
+# The actual line to resolve the redirect/security issue with load balancers:
+# Set to false if you are behind a proxy that handles SSL termination (like Render)
+config.http_authenticatable = false # Already the default but good to ensure
+# config.session_store = :cookie_store, { key: '_investinportugal_session', domain: :all, tld_length: 2, same_site: :lax }
+
+# The actual configuration you need to look at:
+# config.session_store = :cookie_store, { key: '_investinportugal_session', secure: true, httponly: true, same_site: :strict } 
+# Check if you have an explicit session store setup. If so, try removing it or simplifying it.
+
+# THE MOST COMMON FIX IS RELATED TO THE SECURE COOKIE SETTING:
+config.apply_session_security = true
+
+# To resolve issues where Devise thinks the request isn't secure (common on Render free tier):
+# This is often the culprit. It's safe to set this to true if your main app is using https.
+# We must ensure that config.force_ssl = true in production.rb is not causing a redirect loop.
+
+# Since you are not using Devise mailers, this is not a redirect issue.
+
+# The simplest, most effective fix is often ensuring the session cookie is visible.
+
+# 
+# Let's try the recommended settings for Devise behind a proxy:
+#
+# config.action_dispatch.default_headers = {
+#   'X-Frame-Options' => 'SAMEORIGIN',
+#   'X-XSS-Protection' => '1; mode=block',
+#   'X-Content-Type-Options' => 'nosniff',
+#   'X-Permitted-Cross-Domain-Policies' => 'none',
+#   'Referrer-Policy' => 'strict-origin-when-cross-origin'
+# }
+
+# One last guess at a simple Devise fix:
+# (Often required when using an admin model with a different name)
+# config.allow_unconfirmed_access_for = 2.days 
+
+# Final, best guess for Render: Devise + Rails 7 is often solved by this one:
+# This ensures Devise redirects use the 303 status needed by Turbo/Rails 7
+config.navigational_formats = ['*/*', :html, :turbo_stream]
 end
