@@ -326,9 +326,6 @@ Devise.setup do |config|
 config.parent_controller = 'ApplicationController'
 config.navigational_formats = ['*/*', :html, :turbo_stream] 
 
-# THIS IS THE KEY FIX FOR SIGN-IN ON PROXY/RENDER:
-config.cookie_same_site = :lax
-
 # Set this to true if you are using a proxy (like Render's)
 # This prevents the application from thinking the session is insecure.
 # Note: Render handles the actual SSL termination, so your traffic is still secure.
