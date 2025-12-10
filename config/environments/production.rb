@@ -99,4 +99,17 @@ Rails.application.configure do
   # ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+  # This is critical for Devise/Rails to trust the SSL headers from Render's load balancer
+config.action_dispatch.trusted_proxies = [
+  "127.0.0.1",
+  "::1",
+  /\A10\.\d{1,3}\.\d{1,3}\.\d{1,3}\/16\z/, # Private network range 10.0.0.0/16
+  /\A172\.1[6-9]\.\d{1,3}\.\d{1,3}\/20\z/, # Private network range 172.16.0.0/20
+  /\A192\.168\.\d{1,3}\.\d{1,3}\/16\z/, # Private network range 192.168.0.0/16
+]
+# Use config.action_dispatch.default_url_options for devise email helpers
+config.action_mailer.default_url_options = { host: ENV['HOST_NAME'], protocol: 'https' }
+
+# The actual fix: Trust the proxy headers.
+config.action_dispatch.trusted_proxies = /.*/ # Trust all proxies for simplicity on Render
 end
