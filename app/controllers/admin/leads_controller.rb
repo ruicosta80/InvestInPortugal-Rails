@@ -2,6 +2,7 @@ class Admin::LeadsController < ApplicationController
   # CRITICAL: Forces the user to log in before accessing any action in this controller.
  layout 'admin' # <--- NEW LINE 
  before_action :authenticate_admin_user!
+ before_action :set_cache_headers # <--- NEW LINE
 
   def index
     # Use Kaminari to paginate the leads: 10 leads per page
@@ -27,4 +28,15 @@ class Admin::LeadsController < ApplicationController
     @lead.destroy
     redirect_to admin_root_path, notice: "Lead ID #{@lead.id} was successfully deleted."
   end
+
+  private # <--- THIS IS REQUIRED!
+
+  # --- NEW METHOD ---
+  def set_cache_headers
+    # Prevent caching of the admin pages
+    response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
+  end
+  # ------------------
 end
