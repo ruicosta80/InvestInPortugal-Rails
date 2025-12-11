@@ -27,7 +27,7 @@
           <% if admin_user_signed_in? %>
             Logged in as: <%= current_admin_user.email %> |
             <%= link_to 'Sign Out', destroy_admin_user_session_path, 
-                        data: { turbo_method: :delete }, 
+                       # data: { turbo_method: :delete }, 
                         class: 'btn btn-outline-light btn-sm ms-2' %>
           <% end %>
         </span>
