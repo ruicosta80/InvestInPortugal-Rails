@@ -27,6 +27,12 @@ module InvestInPortugal
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w(assets tasks))
+    
+    # Explicitly configure the session store for production cookies
+    config.session_store :cookie_store, key: '_investinportugal_session', 
+                                        secure: Rails.env.production?, 
+                                        httponly: true, 
+                                        same_site: :lax # <-- CRITICAL FIX
 
     # Configuration for the application, engines, and railties goes here.
     #
