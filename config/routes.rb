@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   # Devise routes must be outside the namespace block
-  devise_for :admin_users, skip: [:registrations]
+  devise_for :admin_users, skip: [:registrations], controllers: { 
+  sessions: 'admin_users/sessions' 
+}
 
   # Define the public routes (homepage and form submission)
   root "home#index"
