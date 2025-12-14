@@ -116,7 +116,7 @@ config.action_dispatch.trusted_proxies = [
 config.action_mailer.delivery_method = :sendgrid_actionmailer
 
 # --- CRITICAL FIX: Pass API Key via delivery_options hash ---
-config.action_mailer.delivery_method_options = {
+config.action_mailer.sendgrid_actionmailer_settings = {
   api_key: ENV.fetch("SENDGRID_API_KEY")
 }
 # ------------------------------------------------------------
