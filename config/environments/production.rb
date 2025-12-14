@@ -111,24 +111,17 @@ config.action_dispatch.trusted_proxies = [
 #config.action_mailer.default_url_options = { host: ENV['HOST_NAME'], protocol: 'https' }
 
  # config/environments/production.rb
+# config/environments/production.rb
 
-# Configure the mailer for production environment
-config.action_mailer.delivery_method = :smtp
+# Configure the mailer for SendGrid API delivery
+config.action_mailer.delivery_method = :sendgrid_actionmailer
 config.action_mailer.perform_caching = false
-config.action_mailer.raise_delivery_errors = true # Make sure this is true for debugging
+config.action_mailer.raise_delivery_errors = true 
 
-config.action_mailer.smtp_settings = {
-  user_name:            ENV.fetch("GMAIL_USERNAME"),
-  password:             ENV.fetch("GMAIL_PASSWORD"),
-  domain:               'gmail.com',
-  address:              'smtp.gmail.com',
-  port:                 465, #changed 587,
-  authentication:       :plain,
-  enable_starttls_auto: false,
-  ssl:                  true # Add this line for port 465
-}
+# We rely on the SENDGRID_API_KEY environment variable set on Render
+# No further mailer settings are needed here for SendGrid.
+
 config.action_mailer.default_url_options = { host: 'investinportugal.ee', protocol: 'https' }
-
 
 # This tells Rails to trust the X-Forwarded-For headers from ALL proxies,
 # which is required and safe on a fully managed platform like Render.
