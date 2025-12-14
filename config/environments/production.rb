@@ -120,7 +120,7 @@ config.action_mailer.raise_delivery_errors = true # Make sure this is true for d
 config.action_mailer.smtp_settings = {
   user_name:            ENV.fetch("GMAIL_USERNAME"),
   password:             ENV.fetch("GMAIL_PASSWORD"),
-  domain:               'investinportugal.ee',
+  domain:               'gmail.com',
   address:              'smtp.gmail.com',
   port:                 587,
   authentication:       :plain,
