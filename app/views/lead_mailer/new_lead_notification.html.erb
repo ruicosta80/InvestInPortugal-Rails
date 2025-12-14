@@ -1,0 +1,15 @@
+<h1>New Lead Notification</h1>
+
+<p>A new lead has been submitted on the Invest in Portugal website.</p>
+
+<h2>Lead Details:</h2>
+<ul>
+  <li><strong>Name:</strong> <%= @lead.name %></li>
+  <li><strong>Email:</strong> <%= @lead.email %></li>
+  <li><strong>Phone:</strong> <%= @lead.phone %></li>
+  <li><strong>Service Type:</strong> <%= @lead.service_type %></li>
+  <li><strong>Message:</strong> <%= @lead.message %></li>
+  <li><strong>Submitted On:</strong> <%= @lead.created_at %></li>
+</ul>
+
+<p>View this lead in the admin panel: <%= link_to 'Admin Dashboard', admin_leads_url %></p>

@@ -9,6 +9,11 @@ class LeadsController < ApplicationController
     @lead = Lead.new(lead_params)
 
     if @lead.save
+      #0.
+      # --- NEW LINE: Trigger the Mailer ---
+      LeadMailer.new_lead_notification(@lead).deliver_later
+      # ------------------------------------
+
       # 1. Success: Redirect back to the homepage (root_path) with a success message.
       redirect_to root_path, notice: "Thank you for your interest! We will contact you shortly."
     else

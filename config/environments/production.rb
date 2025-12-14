@@ -108,7 +108,26 @@ config.action_dispatch.trusted_proxies = [
   /\A192\.168\.\d{1,3}\.\d{1,3}\/16\z/, # Private network range 192.168.0.0/16
 ]
 # Use config.action_dispatch.default_url_options for devise email helpers
-config.action_mailer.default_url_options = { host: ENV['HOST_NAME'], protocol: 'https' }
+#config.action_mailer.default_url_options = { host: ENV['HOST_NAME'], protocol: 'https' }
+
+ # config/environments/production.rb
+
+# Configure the mailer for production environment
+config.action_mailer.delivery_method = :smtp
+config.action_mailer.perform_caching = false
+config.action_mailer.raise_delivery_errors = true # Make sure this is true for debugging
+
+config.action_mailer.smtp_settings = {
+  user_name:            ENV.fetch("GMAIL_USERNAME"),
+  password:             ENV.fetch("GMAIL_PASSWORD"),
+  domain:               'investinportugal.ee',
+  address:              'smtp.gmail.com',
+  port:                 587,
+  authentication:       :plain,
+  enable_starttls_auto: true
+}
+config.action_mailer.default_url_options = { host: 'investinportugal.ee', protocol: 'https' }
+
 
 # This tells Rails to trust the X-Forwarded-For headers from ALL proxies,
 # which is required and safe on a fully managed platform like Render.
