@@ -112,11 +112,17 @@ config.action_dispatch.trusted_proxies = [
 
  # config/environments/production.rb
 # config/environments/production.rb
-
 # Configure the mailer for SendGrid API delivery
 config.action_mailer.delivery_method = :sendgrid_actionmailer
+
+# --- CRITICAL FIX: Pass API Key via delivery_options hash ---
+config.action_mailer.delivery_method_options = {
+  api_key: ENV.fetch("SENDGRID_API_KEY")
+}
+# ------------------------------------------------------------
+
 config.action_mailer.perform_caching = false
-config.action_mailer.raise_delivery_errors = true 
+config.action_mailer.raise_delivery_errors = true
 
 # We rely on the SENDGRID_API_KEY environment variable set on Render
 # No further mailer settings are needed here for SendGrid.

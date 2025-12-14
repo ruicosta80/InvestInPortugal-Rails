@@ -70,9 +70,6 @@ group :development, :test do
 
   # Add sqlite3 back, strictly for local development/test
   gem "sqlite3", ">= 1.4" # <--- ADD THIS LINE BACK
-
-  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[ mri windows ]
 end
 
 # Authentication solution for Admins
