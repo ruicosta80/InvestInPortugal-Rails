@@ -122,9 +122,10 @@ config.action_mailer.smtp_settings = {
   password:             ENV.fetch("GMAIL_PASSWORD"),
   domain:               'gmail.com',
   address:              'smtp.gmail.com',
-  port:                 587,
+  port:                 465, #changed 587,
   authentication:       :plain,
-  enable_starttls_auto: true
+  enable_starttls_auto: false,
+  ssl:                  true # Add this line for port 465
 }
 config.action_mailer.default_url_options = { host: 'investinportugal.ee', protocol: 'https' }
 
