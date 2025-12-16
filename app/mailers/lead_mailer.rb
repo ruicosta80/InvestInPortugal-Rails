@@ -71,4 +71,4 @@ class LeadMailer < ApplicationMailer
     return "We received your inquiry, but there was a network issue. Rest assured, we are preparing a detailed response."
   end
 end
-
+end
