@@ -52,7 +52,9 @@
           </div>
 
           <div class="mb-3">
-            <%= form.text_field :country, class: "form-control form-control-lg", placeholder: "Country of Interest" %>
+            <%= form.label :country, "City or Region of Interest (Optional)" %>
+
+ 	     <%= form.text_field :country, placeholder: "e.g., Lisbon, Porto, Algarve, Azores...", required: false %>
           </div>
 
           <div class="mb-4">
