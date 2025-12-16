@@ -13,6 +13,8 @@ class LeadsController < ApplicationController
       # --- NEW LINE: Trigger the Mailer ---
       LeadMailer.new_lead_notification(@lead).deliver_later
       # ------------------------------------
+      # 2. Confirmation to User (New)
+      LeadMailer.confirmation_email(@lead).deliver_later # <--- ADD THIS LINE
 
       # 1. Success: Redirect back to the homepage (root_path) with a success message.
       redirect_to root_path, notice: "Thank you for your interest! We will contact you shortly."
