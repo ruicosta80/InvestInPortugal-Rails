@@ -31,7 +31,8 @@ class LeadMailer < ApplicationMailer
   def generate_ai_context(message)
   # 1. Configuration
   api_key = ENV.fetch("GEMINI_API_KEY")
-  prompt = "Based on this user inquiry: '#{message}', provide a short, one-paragraph, positive, and informative response about investing or living in Portugal. Start with 'Regarding your interest in...' and only output the paragraph."
+  # REVISED PROMPT: More flexible, allows specific answers but maintains professional tone
+  prompt = "Based on this user inquiry: '#{message}', provide a short, one-paragraph, professional, and informative response. If the query is a simple factual question, answer it directly while maintaining a helpful tone related to investing or living in Portugal. If the query is complex, provide a positive summary. Start with 'Regarding your interest in...' and only output the paragraph."
 
   # 2. API Call (using a basic Faraday setup)
   conn = Faraday.new(
