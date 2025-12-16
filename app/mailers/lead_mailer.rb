@@ -1,5 +1,8 @@
 class LeadMailer < ApplicationMailer
   default from: 'investeeriportugali@gmail.com'
+  require 'faraday'
+  require 'json'
+  
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
@@ -26,29 +29,44 @@ class LeadMailer < ApplicationMailer
   private
 
   def generate_ai_context(message)
-    # Convert message to lowercase for case-insensitive checking
-    text = message.downcase
+  # 1. Configuration
+  api_key = ENV.fetch("GEMINI_API_KEY")
+  prompt = "Based on this user inquiry: '#{message}', provide a short, one-paragraph, positive, and informative response about investing or living in Portugal. Start with 'Regarding your interest in...' and only output the paragraph."
 
-    # Define keywords and corresponding AI-generated context snippets
-    context_data = {}
+  # 2. API Call (using a basic Faraday setup)
+  conn = Faraday.new(
+    url: 'https://generativelanguage.googleapis.com',
+    headers: {
+      'Content-Type' => 'application/json',
+      'x-goog-api-key' => api_key
+    }
+  )
 
-    if text.include?('tax') || text.include?('fiscal')
-      # Context generated from search result 1.1, 1.2, 1.3
-      context_data[:taxes] = "I see you're interested in the fiscal side of things. Tax residents in Portugal are generally taxed on worldwide income with progressive rates (13% to 48%), and capital gains on shares are often taxed at a flat 28%. While the former NHR scheme has ended for new applicants, new incentives exist for qualified professionals. We'll connect you with a specialist to discuss your specific tax situation and residency status."
+  payload = {
+    contents: [{ parts: [{ text: prompt }] }],
+    config: {
+      temperature: 0.7,
+      max_output_tokens: 300
+    }
+  }
+
+  begin
+    response = conn.post('/v1beta/models/gemini-2.5-flash:generateContent') do |req|
+      req.body = payload.to_json
     end
 
-    if text.include?('weather') || text.include?('climate') || text.include?('sunshine')
-      # Context generated from search result 2.1, 2.3, 2.4
-      context_data[:weather] = "Portugal enjoys a mild Mediterranean climate, heavily influenced by the Atlantic. The south (Algarve) is the sunniest and warmest, averaging 16°C in winter, while the north (Porto) is cooler and wetter in the winter months. Regardless of the region, you can expect plentiful sunshine throughout the year. We can help you choose a region that best suits your climate preferences!"
-    end
-
-    # Default fallback message if no keyword is found
-    if context_data.empty?
-      return "I've noted your interest in **#{message.truncate(35)}**. We are preparing a personalized guide that addresses this request in detail."
+    # 3. Process Response
+    if response.success?
+      data = JSON.parse(response.body)
+      # Extract text from the nested structure
+      return data.dig('candidates', 0, 'content', 'parts', 0, 'text') || "We received your inquiry and are preparing a detailed response."
     else
-      # Combine multiple detected contexts into a single block
-      intro = "I noticed you specifically asked about a few key topics. Here is some immediate information while we wait for your advisor to reach out:"
-      return intro + "\n\n" + context_data.values.join("\n\n")
+      Rails.logger.error "Gemini API Error: #{response.status} - #{response.body}"
+      # Fallback if API fails
+      return "We received your inquiry, but there was a minor issue generating the AI summary. Rest assured, we are preparing a detailed response."
     end
+  rescue => e
+    Rails.logger.error "Network error contacting Gemini: #{e.message}"
+    return "We received your inquiry, but there was a network issue. Rest assured, we are preparing a detailed response."
   end
 end
