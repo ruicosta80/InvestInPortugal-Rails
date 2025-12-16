@@ -6,7 +6,7 @@
 
 <% if @ai_context.present? %>
   <div style="padding: 15px; border: 1px solid #ddd; background-color: #f9f9f9;">
-    <p style="white-space: pre-wrap; margin: 0;"><%= @ai_context %></p>
+    <%= simple_format(@ai_context, {}, wrapper_tag: "p") %> 
   </div>
   <br>
 <% end %>

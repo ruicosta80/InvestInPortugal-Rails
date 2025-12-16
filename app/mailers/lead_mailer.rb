@@ -48,7 +48,7 @@ class LeadMailer < ApplicationMailer
     # CHANGE THIS KEY NAME
     generationConfig: { # <--- FIX: Renamed 'config' to 'generationConfig'
     temperature: 0.7,
-    max_output_tokens: 300
+    max_output_tokens: 500
     }
   }
 
