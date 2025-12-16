@@ -44,9 +44,10 @@ class LeadMailer < ApplicationMailer
 
   payload = {
     contents: [{ parts: [{ text: prompt }] }],
-    config: {
-      temperature: 0.7,
-      max_output_tokens: 300
+    # CHANGE THIS KEY NAME
+    generationConfig: { # <--- FIX: Renamed 'config' to 'generationConfig'
+    temperature: 0.7,
+    max_output_tokens: 300
     }
   }
 
@@ -70,4 +71,4 @@ class LeadMailer < ApplicationMailer
     return "We received your inquiry, but there was a network issue. Rest assured, we are preparing a detailed response."
   end
 end
-end
+
