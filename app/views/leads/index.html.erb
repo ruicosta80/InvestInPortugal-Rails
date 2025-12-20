@@ -1,0 +1,39 @@
+<div class="container my-5">
+  <h1>Lead Management Dashboard</h1>
+  <p class="text-muted">Total Leads: <%= @leads.count %></p>
+
+  <div class="table-responsive">
+    <table class="table table-striped table-hover mt-4">
+      <thead class="table-dark">
+        <tr>
+          <th>Date</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Region</th>
+          <th>Budget</th>
+          <th>Timeline</th>
+          <th>AI Summary</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @leads.each do |lead| %>
+          <tr>
+            <td><%= lead.created_at.strftime("%d %b") %></td>
+            <td><strong><%= lead.name %></strong></td>
+            <td><%= lead.email %></td>
+            <td><%= lead.country %></td>
+            <td><span class="badge bg-success"><%= lead.budget %></span></td>
+            <td><%= lead.timeline %></td>
+            <td>
+              <button type="button" class="btn btn-sm btn-outline-primary" 
+                      title="<%= lead.ai_response %>" 
+                      onclick="alert('<%= j lead.ai_response %>')">
+                View AI Note
+              </button>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

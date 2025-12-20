@@ -1,0 +1,12 @@
+<div class="card bg-light border-primary animate__animated animate__fadeIn">
+  <div class="card-body">
+    <h4 class="card-title text-primary">✨ Your Personalized Investment Insight</h4>
+    <hr>
+    <div class="card-text text-dark" style="line-height: 1.6;">
+      <%= simple_format(content) %>
+    </div>
+    <div class="mt-3 text-muted small">
+      <i class="bi bi-envelope-check"></i> A copy of this report has been sent to <strong><%= @lead.email %></strong>.
+    </div>
+  </div>
+</div>

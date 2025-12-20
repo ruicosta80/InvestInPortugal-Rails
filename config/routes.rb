@@ -21,4 +21,6 @@ Rails.application.routes.draw do
 
   # Health check should stay
   get "up" => "rails/health#show", as: :rails_health_check
+  # Add this line at the bottom, just before the final 'end'
+  get 'admin_dashboard', to: 'leads#index'
 end
