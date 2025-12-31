@@ -6,6 +6,10 @@ Rails.application.routes.draw do
 
   # Define the public routes (homepage and form submission)
   root "home#index"
+
+  # Add this line at the bottom, just before the final 'end'
+  get 'admin_dashboard', to: 'leads#index'
+
   resources :leads, only: [:new, :create]
 
   # Admin Backend Namespace
@@ -22,5 +26,5 @@ Rails.application.routes.draw do
   # Health check should stay
   get "up" => "rails/health#show", as: :rails_health_check
   # Add this line at the bottom, just before the final 'end'
-  get 'admin_dashboard', to: 'leads#index'
+  #get 'admin_dashboard', to: 'leads#index'
 end

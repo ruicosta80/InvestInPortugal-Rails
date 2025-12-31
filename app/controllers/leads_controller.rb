@@ -1,4 +1,7 @@
 class LeadsController < ApplicationController
+  def index
+    @leads = Lead.all.order(created_at: :desc)
+  end
   # GET /leads/new (This action is technically not used anymore since the form is on the home page, but it's harmless)
   def new
     @lead = Lead.new
@@ -64,9 +67,5 @@ class LeadsController < ApplicationController
   def lead_params
     # Permitting the new budget and timeline fields
     params.require(:lead).permit(:name, :email, :country, :message, :budget, :timeline)
-  end
-
-  def index
-    @leads = Lead.all.order(created_at: :desc)
   end
 end
